@@ -24,11 +24,11 @@
                     <div ht-widget-header title="{{vm.title}}"></div>
                     <div class="widget-content user">
                         <div class="box-container">
-                            <div class="box-red">
+                            <div ng-click="vm.activateBox('A')" ng-class="vm.boxAClass">
                                 <strong>I am box A</strong>
                                 <div>{{vm.boxes.first}}</div>
                             </div>
-                            <div class="box-blue">
+                            <div ng-click="vm.activateBox('B')" ng-class="vm.boxBClass">
                                 <strong>I am box B</strong>
                                 <div>{{vm.boxes.second}}</div>
                             </div>
