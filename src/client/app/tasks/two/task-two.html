@@ -18,7 +18,7 @@
                         <div ng-repeat="o in vm.checkBoxes">
                             <div class="checkbox">
                                     <p>{{o.label}}</p>
-                                    <input type="checkbox" ng-model="o.id" valud="o.id" name="checkBox" required />
+                                    <input type="checkbox" ng-model="o.id" valud="o.id" ng-change="vm.checkValidity(testForm)" name="checkBox" required />
                                     <div class="space10"></div>
                             </div>
                         </div>
@@ -29,12 +29,12 @@
                     </p>
                     
                     <fieldset class="form-group col-xs-12" ng-class="{ 'has-error': testForm.dropDown.$invalid, 'has-success': testForm.dropDown.$valid}">
-                        <select class="form-control input-sm c-select" name="dropDown" ng-model="vm.dropDown" required>
-                            <option value="" disabled style="display:none;">Labels of checkbox-objects</option>
+                        <select class="form-control input-sm c-select" name="dropDown" ng-change="vm.checkValidity(testForm)" ng-model="vm.dropDown" required>
+                            <option ng-repeat="x in vm.checkBoxes | filter:{id:true}" value="x.label" >{{x.label}}</option>
                         </select>
                     </fieldset>
                     <hr />
-                    <button class="btn btn-primary" ng-disabled="true" ng-clicked="vm.problem2Solved()">I should only be enabled if the form is valid</button>
+                    <button class="btn btn-primary" ng-disabled="!testForm.$valid" ng-clicked="vm.problem2Solved()">I should only be enabled if the form is valid</button>
                 
                     <p>
                         testForm.$valid = {{testForm.$valid}}
