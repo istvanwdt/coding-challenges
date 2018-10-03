@@ -27,11 +27,30 @@
         activate();
 
         function activate() {
-            vm.result = calculateStops(vm.list);
+            vm.result = calculateStops(vm.task.list);
         }
 
         function calculateStops(input) {
-            return {};
+            var arr=[]
+			for(var i in input){
+				arr[i] = {val:input[i], minSteps:Number.MAX_VALUE, prevStop:null}
+			}
+			arr[0].minSteps=0;
+			for(var i=0; i<arr.length; i++){
+				var possibleStops = arr.slice(i+1, i+arr[i].val+1)
+				possibleStops.map( x=>{ if( x.minSteps > arr[i].minSteps+1 ) {
+					x.minSteps = arr[i].minSteps+1;
+					x.prevStop = i;
+				}})
+			}
+			var stops = [];
+			for(var nextStop = arr.length-1; nextStop!=null; ){
+				stops.push({val:arr[nextStop].val, index:nextStop})
+				nextStop = arr[nextStop].prevStop;
+			}
+			var finalStops = arr[arr.length-1].minSteps;
+			
+		return {numberOfStops:finalStops, indexes:stops.reverse()}
         }
 
         // Optional use. Only used to present the result
@@ -99,6 +118,8 @@
             var selectedList = exampleArrays[(Math.floor(Math.random() * exampleArrays.length-1) + 1)];
             vm.task.list = selectedList.list;
             vm.task.solution = selectedList.solution;
+			
+			vm.result = calculateStops(vm.task.list);
         }
 
         function toggleInstructions() {
